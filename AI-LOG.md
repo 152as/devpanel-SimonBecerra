@@ -21,7 +21,7 @@ en boilerplate de backend. Detalle completo en `CLAUDE.md`.
 
 ### Prompt 1 — Setup inicial (Bloque 1)
 
-**Prompt:** lectura completa del PDF del examen y de mi `CLAUDE.md` antes de escribir código,
+**Prompt:** lectura completa del enunciado del examen y de mi `CLAUDE.md` antes de escribir código,
 con foco en las decisiones de arquitectura que si se dejan para después se vuelven costosas
 de deshacer (RLS, relación de `profiles` con `auth.users`, formato de las credenciales de
 Supabase). A partir de eso, ejecutar el Bloque 1: setup de Vite + React + TS + Tailwind,
@@ -31,8 +31,8 @@ forma progresiva, bloque por bloque, confirmando conmigo antes de avanzar al sig
 **Qué devolvió:** un scaffold de Vite (`react-ts`) con `react-router-dom`,
 `@tanstack/react-query` y `@supabase/supabase-js` instalados, Tailwind v4
 (`@tailwindcss/vite`) configurado, el boilerplate por defecto limpio (logos, `App.css`,
-contador de ejemplo), `.gitignore` ajustado para excluir `.env` y el PDF del enunciado, y un
-`App.tsx` mínimo para validar que Tailwind compila.
+contador de ejemplo), `.gitignore` ajustado para excluir `.env`, y un `App.tsx` mínimo para
+validar que Tailwind compila.
 
 **Qué hice con eso:** validé con `npm run build` que compilaba (TS + Tailwind generando CSS)
 antes de dar el bloque por cerrado. Antes de conectar el remoto de GitHub, pedí confirmar el
@@ -120,7 +120,7 @@ de código de la app a mano.
 
 ## 6. Una cosa que la IA hizo excelente / una cosa que hizo mal
 
-**Bien:** antes de escribir una sola línea, revisó el PDF del examen y el `CLAUDE.md` y
+**Bien:** antes de escribir una sola línea, revisó el enunciado del examen y el `CLAUDE.md` y
 adelantó las decisiones de arquitectura que, tomadas tarde, salen caras de deshacer: un FK
 estricto de `profiles.id` a `auth.users` habría bloqueado sembrar 40 usuarios falsos; la
 policy de RLS necesaria para que el dashboard funcione sin exponer toda la tabla con la key
