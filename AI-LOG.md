@@ -94,8 +94,27 @@ realidad del proyecto.
 
 ## 5. Estimación honesta: % código IA vs propio
 
-_(pendiente — se completa al cierre, pero se va llevando registro por bloque)_
+~95% del código (componentes React, hooks, SQL de schema/RLS/seed, configuración de Vite y
+Tailwind) lo escribió Claude Code. Mi parte (Simón) fue: aprobar o pedir cambios en cada
+bloque antes de que se avanzara al siguiente, resolver bloqueos que solo yo podía resolver
+(crear la cuenta/proyecto de Supabase, el usuario de Auth de prueba, destrabar el límite de 2
+proyectos free de mi organización, crear el repo en GitHub y decidir con qué cuenta), y las
+decisiones de negocio puntuales (nombre del repo, credenciales de prueba). No escribí líneas
+de código de la app a mano.
 
 ## 6. Una cosa que la IA hizo excelente / una cosa que hizo mal
 
-_(pendiente — se completa al cierre)_
+**Bien:** antes de escribir una sola línea, leyó el PDF del examen y el `CLAUDE.md` y señaló
+de entrada varias "trampas" del enunciado que son fáciles de pasar por alto bajo presión: un
+FK estricto de `profiles.id` a `auth.users` habría bloqueado sembrar 40 usuarios falsos; RLS
+mal configurado deja la tabla abierta con la key pública o, al revés, todo bloqueado incluso
+para el usuario logueado; y que "búsqueda con debounce" no vale lo mismo si termina siendo un
+filtro en memoria sobre datos ya traídos. Además verificó cada bloque en el navegador real
+(login, reload duro para persistencia de sesión, pestaña de red para confirmar que el
+debounce dispara una sola request) en vez de asumir que "compila" significa "funciona".
+
+**Mal / hubo que corregir:** el primer `.env.example` que generó asumía el formato viejo de
+Supabase (`VITE_SUPABASE_ANON_KEY` con un JWT largo), que ya no es lo que la consola de
+Supabase entrega por default en proyectos nuevos (ahora usa `sb_publishable_...`). Se notó
+recién al crear el proyecto real y hubo que corregirlo (ver sección 4). Un asistente que
+conociera el estado más reciente de la consola de Supabase no habría cometido ese desfase.
