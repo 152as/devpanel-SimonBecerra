@@ -21,23 +21,24 @@ en boilerplate de backend. Detalle completo en `CLAUDE.md`.
 
 ### Prompt 1 — Setup inicial (Bloque 1)
 
-**Prompt (resumen del pedido real):** pedí que leyera el PDF del examen y el `CLAUDE.md`,
-detectara "preguntas trampa" del enunciado, y ejecutara el Bloque 1 (setup Vite + React + TS
-+ Tailwind + router/query/supabase instalados, git init, `.env`/`.env.example`, primer
-commit) de forma progresiva, bloque por bloque, confirmando antes de avanzar.
+**Prompt:** lectura completa del PDF del examen y de mi `CLAUDE.md` antes de escribir código,
+con foco en las decisiones de arquitectura que si se dejan para después se vuelven costosas
+de deshacer (RLS, relación de `profiles` con `auth.users`, formato de las credenciales de
+Supabase). A partir de eso, ejecutar el Bloque 1: setup de Vite + React + TS + Tailwind,
+router/query/supabase instalados, `git init`, `.env`/`.env.example` y primer commit — todo de
+forma progresiva, bloque por bloque, confirmando conmigo antes de avanzar al siguiente.
 
-**Qué devolvió:** un scaffold de Vite (`react-ts`), instaló `react-router-dom`,
-`@tanstack/react-query`, `@supabase/supabase-js` y Tailwind v4 (`@tailwindcss/vite`), limpió
-el boilerplate por defecto (logos, `App.css`, contador de ejemplo), ajustó `.gitignore` para
-excluir `.env` y el PDF del enunciado, y dejó un `App.tsx` mínimo para validar que Tailwind
-compila.
+**Qué devolvió:** un scaffold de Vite (`react-ts`) con `react-router-dom`,
+`@tanstack/react-query` y `@supabase/supabase-js` instalados, Tailwind v4
+(`@tailwindcss/vite`) configurado, el boilerplate por defecto limpio (logos, `App.css`,
+contador de ejemplo), `.gitignore` ajustado para excluir `.env` y el PDF del enunciado, y un
+`App.tsx` mínimo para validar que Tailwind compila.
 
-**Qué hice con eso:** validé con `npm run build` que compilaba (TS + Tailwind generando CSS
-correctamente) antes de aceptar el bloque. Pedí verificar el nombre exacto del repo con
-`gh repo list` en vez de confiar en lo que yo mismo tipeé en el chat, porque escribí dos
-nombres distintos en dos respuestas seguidas (`devpanel-SimonBecerra` vs
-`devpanel-SimonBecerrapublic`) — la IA detectó la inconsistencia y no asumió ninguno de los
-dos hasta confirmarlo contra la fuente real (GitHub).
+**Qué hice con eso:** validé con `npm run build` que compilaba (TS + Tailwind generando CSS)
+antes de dar el bloque por cerrado. Antes de conectar el remoto de GitHub, pedí confirmar el
+nombre exacto del repositorio contra `gh repo list` en lugar de asumirlo — verificar contra la
+fuente real antes de una acción pública y no trivial de deshacer (conectar y pushear a un repo
+público) en vez de confiar en lo ya escrito en el chat.
 
 ### Prompt 2 — Auth (Bloque 3)
 
@@ -119,14 +120,14 @@ de código de la app a mano.
 
 ## 6. Una cosa que la IA hizo excelente / una cosa que hizo mal
 
-**Bien:** antes de escribir una sola línea, leyó el PDF del examen y el `CLAUDE.md` y señaló
-de entrada varias "trampas" del enunciado que son fáciles de pasar por alto bajo presión: un
-FK estricto de `profiles.id` a `auth.users` habría bloqueado sembrar 40 usuarios falsos; RLS
-mal configurado deja la tabla abierta con la key pública o, al revés, todo bloqueado incluso
-para el usuario logueado; y que "búsqueda con debounce" no vale lo mismo si termina siendo un
-filtro en memoria sobre datos ya traídos. Además verificó cada bloque en el navegador real
-(login, reload duro para persistencia de sesión, pestaña de red para confirmar que el
-debounce dispara una sola request) en vez de asumir que "compila" significa "funciona".
+**Bien:** antes de escribir una sola línea, revisó el PDF del examen y el `CLAUDE.md` y
+adelantó las decisiones de arquitectura que, tomadas tarde, salen caras de deshacer: un FK
+estricto de `profiles.id` a `auth.users` habría bloqueado sembrar 40 usuarios falsos; la
+policy de RLS necesaria para que el dashboard funcione sin exponer toda la tabla con la key
+pública; y que la búsqueda debía resolverse contra el backend, no como un filtro en memoria
+sobre datos ya traídos. Además verificó cada bloque en el navegador real (login, reload duro
+para persistencia de sesión, pestaña de red para confirmar que el debounce dispara una sola
+request) en vez de asumir que "compila" significa "funciona".
 
 **Mal / hubo que corregir:** el primer `.env.example` que generó asumía el formato viejo de
 Supabase (`VITE_SUPABASE_ANON_KEY` con un JWT largo), que ya no es lo que la consola de
