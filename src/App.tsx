@@ -1,8 +1,17 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { Login } from './pages/Login'
+import { Dashboard } from './pages/Dashboard'
+import { ProtectedRoute } from './components/ProtectedRoute'
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-100">
-      <h1 className="text-3xl font-semibold text-slate-800">DevPanel — setup OK</h1>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
   )
 }
 
