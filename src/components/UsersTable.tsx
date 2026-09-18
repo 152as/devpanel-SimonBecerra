@@ -3,38 +3,69 @@ import { useDebouncedValue } from '../hooks/useDebouncedValue'
 import { useProfiles } from '../hooks/useProfiles'
 
 const PAGE_SIZE = 10
+const ROLES = ['admin', 'editor', 'viewer']
+const STATUSES = ['active', 'inactive']
 
 export function UsersTable() {
   const [search, setSearch] = useState('')
+  const [role, setRole] = useState('')
+  const [status, setStatus] = useState('')
   const [page, setPage] = useState(0)
   const debouncedSearch = useDebouncedValue(search, 300)
 
-  // Nueva busqueda -> siempre volver a la primera pagina.
+  // Nueva busqueda o filtro -> siempre volver a la primera pagina.
   useEffect(() => {
     setPage(0)
-  }, [debouncedSearch])
+  }, [debouncedSearch, role, status])
 
-  const {
-    data,
-    isLoading,
-    isFetching,
-    isError,
-  } = useProfiles({ search: debouncedSearch, page, pageSize: PAGE_SIZE })
+  const { data, isLoading, isFetching, isError } = useProfiles({
+    search: debouncedSearch,
+    page,
+    pageSize: PAGE_SIZE,
+    role,
+    status,
+  })
 
   const rows = data?.rows ?? []
   const totalPages = data ? Math.max(1, Math.ceil(data.count / PAGE_SIZE)) : 1
 
   return (
     <section className="mt-8">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xl font-semibold text-slate-800">Usuarios</h2>
-        <input
-          type="search"
-          placeholder="Buscar por nombre o email…"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          className="w-64 rounded border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
+            className="rounded border border-slate-300 px-2 py-2 text-sm focus:border-slate-500 focus:outline-none"
+          >
+            <option value="">Todos los roles</option>
+            {ROLES.map((r) => (
+              <option key={r} value={r}>
+                {r}
+              </option>
+            ))}
+          </select>
+          <select
+            value={status}
+            onChange={(event) => setStatus(event.target.value)}
+            className="rounded border border-slate-300 px-2 py-2 text-sm focus:border-slate-500 focus:outline-none"
+          >
+            <option value="">Todos los estados</option>
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+          <input
+            type="search"
+            placeholder="Buscar por nombre o email…"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            className="w-64 rounded border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
+          />
+        </div>
       </div>
 
       {isError && (

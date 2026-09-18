@@ -14,11 +14,13 @@ interface UseProfilesParams {
   search: string
   page: number
   pageSize: number
+  role: string
+  status: string
 }
 
-export function useProfiles({ search, page, pageSize }: UseProfilesParams) {
+export function useProfiles({ search, page, pageSize, role, status }: UseProfilesParams) {
   return useQuery({
-    queryKey: ['profiles', 'list', search, page, pageSize],
+    queryKey: ['profiles', 'list', search, page, pageSize, role, status],
     queryFn: async () => {
       const from = page * pageSize
       const to = from + pageSize - 1
@@ -33,6 +35,8 @@ export function useProfiles({ search, page, pageSize }: UseProfilesParams) {
         const term = search.trim().replace(/[%_]/g, '')
         query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%`)
       }
+      if (role) query = query.eq('role', role)
+      if (status) query = query.eq('status', status)
 
       const { data, error, count } = await query
       if (error) throw error
