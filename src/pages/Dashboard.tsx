@@ -1,4 +1,5 @@
 import { Header } from '../components/Header'
+import { UsersTable } from '../components/UsersTable'
 import { useUserCounts } from '../hooks/useUserCounts'
 
 export function Dashboard() {
@@ -18,6 +19,8 @@ export function Dashboard() {
           <MetricCard label="Total de usuarios" value={isLoading ? '…' : (data?.total ?? 0)} />
           <MetricCard label="Usuarios activos" value={isLoading ? '…' : (data?.active ?? 0)} />
         </div>
+
+        <UsersTable />
       </main>
     </div>
   )
