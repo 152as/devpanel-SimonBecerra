@@ -5,6 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import App from './App.tsx'
 import { AuthProvider } from './auth/AuthProvider'
+import { applyTheme, getPreferredTheme } from './lib/theme'
+
+// Aplicar el tema antes del primer render evita un flash del tema incorrecto.
+applyTheme(getPreferredTheme())
 
 const queryClient = new QueryClient()
 
