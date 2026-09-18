@@ -80,7 +80,22 @@ Bloque 3 — cualquier evento que deje `session = null` (logout manual, expiraci
 token, revocación) hace que `ProtectedRoute` redirija solo, sin código adicional. Se
 documenta en vez de escribir un listener duplicado.
 
-_(Las siguientes secciones se completan a medida que avanza el examen)._
+### Prompt 4 — Pulido visual y modo oscuro (P2, post-cierre de P0/P1)
+
+**Prompt (resumen):** con P0 y P1 sólidos y ~1h de margen real, pedí revisar la tabla contra
+el enunciado completo, confirmar la elección de stack, y usar el tiempo sobrante en el único
+ítem P2 flojo ("diseño cuidado"): pedí modo oscuro con toggle persistente, no solo
+`prefers-color-scheme`.
+
+**Qué devolvió:** variant `dark` por clase en Tailwind v4 (`@custom-variant`), un helper
+`applyTheme`/`getPreferredTheme` aplicado de forma síncrona en `main.tsx` antes del primer
+render (para no mostrar un flash del tema equivocado), un hook `useTheme`, un botón toggle en
+el header, y badges de color por rol/estado en la tabla.
+
+**Qué hice con eso:** probé en navegador que arranca respetando la preferencia del sistema,
+que el botón cambia el tema en caliente, y que un reload duro mantiene la preferencia elegida
+(no vuelve a la del sistema). No agregué shadcn ni ninguna dependencia nueva para no arriesgar
+tiempo de instalación a esta altura del examen.
 
 ## 4. Algo que rechacé o modifiqué
 

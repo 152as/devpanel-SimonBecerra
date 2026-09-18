@@ -87,5 +87,6 @@ desarrollo se usó:
 - No hay registro de usuarios (signup) desde la UI — los usuarios se crean manualmente en el
   dashboard de Supabase, como pide el enunciado ("no dejar usuarios fijos en un JSON").
 - Sin tests automatizados (fuera de alcance para 2h, según el enunciado).
-- El diseño es funcional pero no pulido pixel-perfect.
+- El diseño es funcional con modo oscuro y badges de color, pero no es pixel-perfect ni usa
+  una librería de componentes (shadcn, etc.).
 - La tabla no tiene ordenamiento por columna (solo orden fijo por fecha de creación).
