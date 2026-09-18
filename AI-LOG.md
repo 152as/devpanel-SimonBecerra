@@ -39,6 +39,25 @@ nombres distintos en dos respuestas seguidas (`devpanel-SimonBecerra` vs
 `devpanel-SimonBecerrapublic`) — la IA detectó la inconsistencia y no asumió ninguno de los
 dos hasta confirmarlo contra la fuente real (GitHub).
 
+### Prompt 2 — Auth (Bloque 3)
+
+**Prompt (resumen):** pedí el cliente de Supabase, contexto de sesión, página de login y
+rutas protegidas, siguiendo el orden del `CLAUDE.md`, y que se probara en navegador antes de
+dar el bloque por cerrado.
+
+**Qué devolvió:** `AuthProvider` con `onAuthStateChange` + `getSession()`, `ProtectedRoute`,
+página de `Login` y el wiring de rutas. Decisión de arquitectura no trivial: el `AuthProvider`
+arranca con `loading = true` y no decide "hay sesión o no" hasta que `getSession()` resuelve;
+sin esto, en un reload el `ProtectedRoute` alcanzaría a redirigir a `/login` por una fracción
+de segundo aunque sí hubiera sesión guardada en `localStorage` (falso negativo momentáneo).
+
+**Qué hice con eso:** probé en el navegador con Claude in Chrome: login con las credenciales
+de prueba y luego una navegación dura (no solo cambio de ruta del SPA) directo a
+`/dashboard` para confirmar que la sesión sobrevive a un reload real, no solo a un cambio de
+ruta en memoria. Además, el formulario de login venía autocompletado por Chrome con mi email
+y password personales (autofill del navegador, no algo que yo haya tipeado) — los descarté y
+usé las credenciales de prueba `admin@devpanel.test` en su lugar.
+
 _(Las siguientes secciones se completan a medida que avanza el examen)._
 
 ## 4. Algo que rechacé o modifiqué
