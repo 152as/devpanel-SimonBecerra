@@ -15,9 +15,6 @@ dist-ssr
 # env reales, nunca se commitean (solo .env.example)
 .env
 
-# enunciado del examen, no forma parte de la entrega
-Prueba_Tecnica_Devpanel_IA.pdf
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
