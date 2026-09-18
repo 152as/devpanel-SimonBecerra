@@ -90,3 +90,7 @@ desarrollo se usó:
 - El diseño es funcional con modo oscuro y badges de color, pero no es pixel-perfect ni usa
   una librería de componentes (shadcn, etc.).
 - La tabla no tiene ordenamiento por columna (solo orden fijo por fecha de creación).
+- `profiles.status` es informativo: impulsa la tarjeta "Usuarios activos" y el filtro de la
+  tabla, pero no bloquea el login — el flujo de autenticación valida contra `auth.users` de
+  Supabase, no contra este campo. Marcar un perfil como `inactive` no le impide iniciar sesión
+  si tiene una cuenta de Auth real asociada.
