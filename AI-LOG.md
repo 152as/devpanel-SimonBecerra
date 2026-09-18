@@ -43,7 +43,13 @@ _(Las siguientes secciones se completan a medida que avanza el examen)._
 
 ## 4. Algo que rechacé o modifiqué
 
-_(pendiente — se documenta la primera vez que ocurra, con el motivo)_
+En el Bloque 1, Claude Code generó `.env.example` asumiendo el formato clásico de Supabase
+(`VITE_SUPABASE_ANON_KEY` con un JWT largo tipo `eyJ...`). Al crear el proyecto real en
+Supabase, la consola ya usa el sistema nuevo de API keys (`sb_publishable_...` /
+`sb_secret_...`, con el JWT viejo como "legacy"). Corregí el nombre de la variable a
+`VITE_SUPABASE_PUBLISHABLE_KEY` y el formato del placeholder para que coincida con lo que
+realmente genera Supabase hoy, en vez de dejar el `.env.example` desalineado con la
+realidad del proyecto.
 
 ## 5. Estimación honesta: % código IA vs propio
 
