@@ -58,6 +58,28 @@ ruta en memoria. Además, el formulario de login venía autocompletado por Chrom
 y password personales (autofill del navegador, no algo que yo haya tipeado) — los descarté y
 usé las credenciales de prueba `admin@devpanel.test` en su lugar.
 
+### Prompt 3 — Tabla y búsqueda (Bloque 5, P0)
+
+**Prompt (resumen):** pedí la tabla de usuarios con TanStack Query y búsqueda con debounce
+(~300ms), separando explícitamente este bloque P0 de la paginación (P1) para no mezclar
+prioridades y poder cerrar P0 de punta a punta antes de tocar nada de P1, tal como pide el
+enunciado.
+
+**Qué devolvió:** hook `useProfiles` que arma un `.or(name.ilike…, email.ilike…)` contra
+Supabase (no un filtro en memoria sobre datos ya cargados) y un `useDebouncedValue` genérico.
+
+**Qué hice con eso:** lo verifiqué con la pestaña de red del navegador, no solo mirando la
+UI: escribí "Ana" y confirmé que se disparó **una sola** request a
+`/rest/v1/profiles` con el filtro `ilike` ya aplicado en la URL (server-side), no una request
+por cada tecla. Esto demuestra que el debounce funciona y que la búsqueda es real contra el
+backend, no una simulación local con los 41 registros ya traídos.
+
+**Nota para el siguiente bloque:** el requisito P1 "manejo de sesión vencida (listener de
+SIGNED_OUT → login)" ya queda cubierto por el `onAuthStateChange` del `AuthProvider` del
+Bloque 3 — cualquier evento que deje `session = null` (logout manual, expiración de refresh
+token, revocación) hace que `ProtectedRoute` redirija solo, sin código adicional. Se
+documenta en vez de escribir un listener duplicado.
+
 _(Las siguientes secciones se completan a medida que avanza el examen)._
 
 ## 4. Algo que rechacé o modifiqué
